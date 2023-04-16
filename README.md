@@ -3,7 +3,7 @@
 ## Table of Contents
 1. [Summary](#summary)
   - [Dessert List Endpoint](#dessert-list-endpoint)
-  - [Dessert Details API](#dessert-details-api)
+  - [Dessert Details Endpoint](#dessert-details-endpoint)
 2. [Architectural Approach](#architectural-approach)
 3. [Dessert List View](#dessert-list-view)
 4. [Dessert View](#dessert-view)
@@ -36,7 +36,7 @@ It appears to return desserts in alphabetical order, *but just to be extra safe*
 
 <br />
 
-### Dessert Details API
+### Dessert Details Endpoint
 By requesting dessert details for a specific dessert via the [Dessert Details Endpoint](https://themealdb.com/api/json/v1/1/lookup.php?i=52924), it returns the following response:
 ```
 {
