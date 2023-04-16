@@ -16,16 +16,20 @@ class Dessert: Codable, Identifiable {
 	/// Unique identifier - important for fetching dessert specific information.
 	let id: String
 	
+	/// Image URL for dessert
+	let imageURL: String
+	
 	/// Sub-model, which includes more dessert details.
 	var details: DessertDetail?
 	
 	enum DessertKey: CodingKey {
-		case strMeal, idMeal
+		case strMeal, idMeal, strMealThumb
 	}
 	
 	required init(from decoder: Decoder) throws {
 		let values = try decoder.container(keyedBy: DessertKey.self)
 		name = try values.decode(String.self, forKey: .strMeal)
 		id = try values.decode(String.self, forKey: .idMeal)
+		imageURL = try values.decode(String.self, forKey: .strMealThumb)
 	}
 }

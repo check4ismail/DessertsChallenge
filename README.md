@@ -11,7 +11,7 @@
 ## Summary
 Purpose of this coding challenge is the following:
 1. Fetch desserts from Meal Database API, then display list of desserts alphabetically
-2. Fetch dessert details and display its name, ingredients with measurement, and instructions.
+2. Fetch dessert details and display its name, image, ingredients with measurement, and instructions.
 
 Before jumping into coding, I made sure to fully understand the requirements and given REST endpoints.
 
@@ -116,9 +116,12 @@ Time to think about app architecture. I decided to go with the **MVVM (Model, Vi
 
 For the **Model**, I'll use the `Codable` protocol to seamlessly decode API responses into Swift models.
 
+For networking, I'll be using a `MealAPI` to handle Meal endpoint requests. I'll also be using `ImageLoader` to handle downloading and caching dessert images. Both network components are abstracted using the Factory design pattern by using Swift protocols. 
+
 Taking performance into account, I'll be doing the following to reduce network calls:
 - Fetch list of desserts **only once**
 - Fetch dessert details **only once when requested by user**. If user views same dessert a second time, **no extra network calls are executed** since it was already fetched.
+- Utilizing an `ImageLoader` to handle downloading and caching dessert images. The image is fetched when user views dessert details.
 
 
 <br />

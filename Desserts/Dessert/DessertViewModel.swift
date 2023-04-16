@@ -13,6 +13,9 @@ import SwiftUI
 protocol DessertViewModel: ObservableObject {
 	var dessert: Dessert { get }
 	var mealsAPI: MealAPI { get }
+	var imageLoader: ImageLoader { get }
+	
+	var image: UIImage? { get }
 	
 	/// List of instructions.
 	var instructions: [String] { get }
@@ -24,20 +27,32 @@ protocol DessertViewModel: ObservableObject {
 	///
 	/// Before performing a network call, check if dessert details exist. If so, no network call is made to prevent redundant network calls.
 	func fetchDetails()
+	
+	/// Executes request to load dessert image.
+	func fetchImage()
 }
 
 /// Implementation of `DessertListViewModel`.
 ///
 /// Because dependency injection for `MealAPI` is supported, this class can be used for unit testing purposes by passing in a mock version of `MealAPI`.
+/// Same applies to `ImageLoader`.
 final class DessertVMImplementer: DessertViewModel {
 	@Published var dessert: Dessert
+	@Published var image: UIImage?
 	
 	let mealsAPI: MealAPI
+	let imageLoader: ImageLoader
 	
-	init(_ dessert: Dessert, mealsAPI: MealAPI = MealProdAPI.shared) {
+	init(
+		_ dessert: Dessert,
+		imageLoader: ImageLoader = ImageProdLoader.shared,
+		mealsAPI: MealAPI = MealProdAPI.shared
+	) {
 		self.dessert = dessert
+		self.imageLoader = imageLoader
 		self.mealsAPI = mealsAPI
 		
+		fetchImage()
 		fetchDetails()
 	}
 	
@@ -69,6 +84,15 @@ final class DessertVMImplementer: DessertViewModel {
 				
 				/// Fire an alert to UI of changes.
 				self.objectWillChange.send()
+			}
+		}
+	}
+	
+	func fetchImage() {
+		imageLoader.downloadImage(dessert) { image in
+			/// Thread-safety to update UI on main thread.
+			DispatchQueue.main.async {
+				self.image = image
 			}
 		}
 	}

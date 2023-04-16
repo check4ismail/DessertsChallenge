@@ -13,6 +13,7 @@
 		213095FA29E9CE8F00965D42 /* DessertViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213095F929E9CE8F00965D42 /* DessertViewModel.swift */; };
 		213095FC29E9E1DE00965D42 /* MealAPIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213095FB29E9E1DE00965D42 /* MealAPIError.swift */; };
 		213095FF29EA030400965D42 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 213095FE29EA030400965D42 /* Strings.swift */; };
+		215123CA29EC583D00A197E4 /* ImageLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 215123C929EC583D00A197E4 /* ImageLoader.swift */; };
 		21B747A229E86966008B69AE /* DessertsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B747A129E86966008B69AE /* DessertsApp.swift */; };
 		21B747A629E8696A008B69AE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21B747A529E8696A008B69AE /* Assets.xcassets */; };
 		21B747A929E8696A008B69AE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21B747A829E8696A008B69AE /* Preview Assets.xcassets */; };
@@ -31,6 +32,7 @@
 		213095F929E9CE8F00965D42 /* DessertViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DessertViewModel.swift; sourceTree = "<group>"; };
 		213095FB29E9E1DE00965D42 /* MealAPIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MealAPIError.swift; sourceTree = "<group>"; };
 		213095FE29EA030400965D42 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		215123C929EC583D00A197E4 /* ImageLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoader.swift; sourceTree = "<group>"; };
 		21B7479E29E86966008B69AE /* Desserts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Desserts.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21B747A129E86966008B69AE /* DessertsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DessertsApp.swift; sourceTree = "<group>"; };
 		21B747A529E8696A008B69AE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -85,7 +87,7 @@
 				21B747A529E8696A008B69AE /* Assets.xcassets */,
 				21B747BD29E8939E008B69AE /* Extensions */,
 				213095FD29EA02BA00965D42 /* Utilities */,
-				21B747B629E88756008B69AE /* API */,
+				21B747B629E88756008B69AE /* Network */,
 				21B747B129E869C1008B69AE /* Model */,
 				21B747AF29E8698C008B69AE /* DessertList */,
 				21B747B029E86998008B69AE /* Dessert */,
@@ -131,13 +133,14 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		21B747B629E88756008B69AE /* API */ = {
+		21B747B629E88756008B69AE /* Network */ = {
 			isa = PBXGroup;
 			children = (
 				21B747B729E88843008B69AE /* MealAPI.swift */,
 				213095FB29E9E1DE00965D42 /* MealAPIError.swift */,
+				215123C929EC583D00A197E4 /* ImageLoader.swift */,
 			);
-			path = API;
+			path = Network;
 			sourceTree = "<group>";
 		};
 		21B747BD29E8939E008B69AE /* Extensions */ = {
@@ -218,6 +221,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				215123CA29EC583D00A197E4 /* ImageLoader.swift in Sources */,
 				213095FC29E9E1DE00965D42 /* MealAPIError.swift in Sources */,
 				21B747B329E869F6008B69AE /* Dessert.swift in Sources */,
 				213095F429E9C48C00965D42 /* DessertListView.swift in Sources */,

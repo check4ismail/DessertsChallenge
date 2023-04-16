@@ -26,6 +26,17 @@ struct DessertView<T: DessertViewModel>: View {
 			.listRowBackground(Color.clear)
 			.listRowSeparator(.hidden)
 			
+			/// Dessert image
+			Image(uiImage: viewModel.image ?? UIImage())
+				.resizable()
+				.frame(width: nil, height: 300)
+				.listRowBackground(Color.clear)
+				.listRowSeparator(.hidden)
+				.background(
+					/// If image is not available, display a gray background placeholder.
+					viewModel.image == nil ? .gray : .clear
+				)
+			
 			/// Ingredients section
 			Section(DessertViewStr.ingredients) {
 				ForEach(viewModel.ingredients, id: \.self) { ingredient in
