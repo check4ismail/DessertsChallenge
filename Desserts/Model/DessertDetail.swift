@@ -19,51 +19,30 @@ struct DessertDetail: Codable {
 	var ingredients: [String] = []
 
 	/// Coding keys to match backend representation in order to fetch all required info.
-	enum DessertDetailKey: CodingKey {
-		case strInstructions
+	///
+	/// Use struct for customization of `CodingKey`.
+	struct DessertDetailKey: CodingKey {
+		static let strInstructions = DessertDetailKey(stringValue: "strInstructions")!
 		
-		case strIngredient1
-		case strIngredient2
-		case strIngredient3
-		case strIngredient4
-		case strIngredient5
-		case strIngredient6
-		case strIngredient7
-		case strIngredient8
-		case strIngredient9
-		case strIngredient10
-		case strIngredient11
-		case strIngredient12
-		case strIngredient13
-		case strIngredient14
-		case strIngredient15
-		case strIngredient16
-		case strIngredient17
-		case strIngredient18
-		case strIngredient19
-		case strIngredient20
+		static func ingredient(_ index: Int) -> DessertDetailKey {
+			return DessertDetailKey(stringValue: "strIngredient\(index)")!
+		}
 		
+		static func measure(_ index: Int) -> DessertDetailKey {
+			return DessertDetailKey(stringValue: "strMeasure\(index)")!
+		}
 		
-		case strMeasure1
-		case strMeasure2
-		case strMeasure3
-		case strMeasure4
-		case strMeasure5
-		case strMeasure6
-		case strMeasure7
-		case strMeasure8
-		case strMeasure9
-		case strMeasure10
-		case strMeasure11
-		case strMeasure12
-		case strMeasure13
-		case strMeasure14
-		case strMeasure15
-		case strMeasure16
-		case strMeasure17
-		case strMeasure18
-		case strMeasure19
-		case strMeasure20
+		var stringValue: String
+		
+		init?(stringValue: String) {
+			self.stringValue = stringValue
+		}
+		
+		var intValue: Int? { return nil }
+		
+		init?(intValue: Int) {
+			return nil
+		}
 	}
 	
 	init(from decoder: Decoder) throws {
@@ -73,17 +52,18 @@ struct DessertDetail: Codable {
 		instructions = try values.decode(String.self, forKey: .strInstructions).formatInstructions()
 		
 		/// Parsing ingredients and corresponding measurements.
-		for i in 1...20 {
-			let ingredientKey = DessertDetailKey(stringValue: "strIngredient\(i)")
-			let ingredient = try values.decode(String.self, forKey: ingredientKey!)
-			
-			let measureKey = DessertDetailKey(stringValue: "strMeasure\(i)")
-			let measure = try values.decode(String.self, forKey: measureKey!)
+		var i = 1
+		
+		while true {
+			let ingredient = try values.decode(String.self, forKey: .ingredient(i))
+			let measure = try values.decode(String.self, forKey: .measure(i))
 			
 			/// Once there are no more ingredients, no need to continue loop.
 			guard !ingredient.isEmpty && !measure.isEmpty else {
 				break
 			}
+			
+			i += 1
 			
 			/// Example: Milk - 2 ML.
 			ingredients.append(ingredient + " - " + measure)
