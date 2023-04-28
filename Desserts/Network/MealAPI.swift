@@ -14,11 +14,37 @@ protocol MealAPI {
 	/// Shared MealAPI instance.
 	static var shared: Self { get }
 	
-	/// Fetch list of desserts.
-	func fetchDessertsList(completion: @escaping ([Dessert]?, MealAPIError?) -> ())
+	/// Perform Meal network request.
+	func request(_ type: MealRequestType, completion: @escaping (Result<any Codable, MealAPIError>) -> ())
+}
+
+/// Meal Network Request Type - for specifying network request action.
+///
+/// Each request action has its own `URL` and `MealAPIError`.
+enum MealRequestType {
+	case dessertList
+	case dessertDetails(String)
 	
-	/// Fetch details for specific dessert in order to fetch instructions and ingredients.
-	func fetchDessertDetails(id: String, completion: @escaping (DessertDetail?, MealAPIError?) -> ())
+	static let baseURL = URL(string: "https://themealdb.com/api/json/v1/1/")!
+	static let listPath = "filter.php?c=Dessert"
+	
+	var url: URL {
+		switch self {
+		case .dessertList:
+			return URL(string: MealRequestType.listPath, relativeTo: MealRequestType.baseURL)!
+		case .dessertDetails(let id):
+			return URL(string: "lookup.php?i=\(id)", relativeTo: MealRequestType.baseURL)!
+		}
+	}
+	
+	func mealError(with error: Error?) -> MealAPIError {
+		switch self {
+		case .dessertList:
+			return .listUnavailable(error)
+		case .dessertDetails(_):
+			return .detailsUnavailable(error)
+		}
+	}
 }
 
 final class MealProdAPI: MealAPI {
@@ -39,44 +65,25 @@ final class MealProdAPI: MealAPI {
 		urlSession = URLSession.shared
 	}
 	
-	func fetchDessertsList(completion: @escaping ([Dessert]?, MealAPIError?) -> ()) {
-		let listURL = URL(string: listPath, relativeTo: baseURL)!
-		let urlRequest = URLRequest(url: listURL)
-		
-		urlSession.dataTask(with: urlRequest) { data, _, error in
+	func request(_ type: MealRequestType, completion: @escaping (Result<any Codable, MealAPIError>) -> ()) {
+		urlSession.dataTask(with: URLRequest(url: type.url)) { data, _, error in
 			guard error == nil, let data else {
-				completion(nil, .listUnavailable(error))
+				completion(.failure(type.mealError(with: error)))
 				return
 			}
 			
 			do {
-				let decoder = JSONDecoder()
-				let desserts = try decoder.decode(Desserts.self, from: data)
-				completion(desserts.meals, nil)
+				switch type {
+				case .dessertList:
+					let desserts: Desserts = try ClientMapper.decode(data)
+					completion(.success(desserts.meals))
+				case .dessertDetails(_):
+					let dessertDetails: DessertDetails = try ClientMapper.decode(data)
+					completion(.success(dessertDetails.meals.first!))
+				}
 			} catch {
-				completion(nil, .listUnavailable(error))
-				print("Error fetching list: \(String(describing: error))")
-			}
-		}.resume()
-	}
-	
-	func fetchDessertDetails(id: String, completion: @escaping (DessertDetail?, MealAPIError?) -> ()) {
-		/// Perform lookup using dessert ID.
-		let dessertURL = URL(string: "lookup.php?i=\(id)", relativeTo: baseURL)!
-		
-		urlSession.dataTask(with: URLRequest(url: dessertURL)) { data, _, error in
-			guard error == nil, let data else {
-				completion(nil, .detailsUnavailable(error))
-				return
-			}
-			
-			do {
-				let decoder = JSONDecoder()
-				let dessertDetails = try decoder.decode(DessertDetails.self, from: data)
-				completion(dessertDetails.meals.first!, nil)
-			} catch {
-				completion(nil, .detailsUnavailable(error))
-				print("Error fetching list: \(String(describing: error))")
+				completion(.failure(type.mealError(with: error)))
+				print("Request error: \(String(describing: error))")
 			}
 		}.resume()
 	}

@@ -71,10 +71,10 @@ final class DessertVMImplementer: DessertViewModel {
 			return
 		}
 		
-		mealsAPI.fetchDessertDetails(id: dessert.id) { details, error in
+		mealsAPI.request(.dessertDetails(dessert.id)) { result in
 			/// Thread-safety to update UI on main thread.
 			DispatchQueue.main.async { [weak self] in
-				guard let self, let details else {
+				guard let self, let details = try? result.get() as? DessertDetail else {
 					return
 				}
 				

@@ -39,11 +39,11 @@ final class DessertListVMImplementer: DessertListViewModel {
 	}
 	
 	func fetchDesserts() {
-		mealAPI.fetchDessertsList { desserts, error in
+		mealAPI.request(.dessertList) { result in
 			/// Update variables on main thread for thread-safe UI updates.
 			DispatchQueue.main.async { [weak self] in
 				guard let self else { return }
-				guard error == nil, let desserts else {
+				guard let desserts = try? result.get() as? [Dessert] else {
 					fetchError = true
 					return
 				}

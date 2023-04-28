@@ -23,6 +23,7 @@
 		21B747BA29E88B1B008B69AE /* Desserts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B747B929E88B1B008B69AE /* Desserts.swift */; };
 		21B747BC29E88F5B008B69AE /* DessertDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B747BB29E88F5B008B69AE /* DessertDetails.swift */; };
 		21B747BF29E893AC008B69AE /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21B747BE29E893AC008B69AE /* String+Extensions.swift */; };
+		21E6CD4C29FC634700C8BA78 /* ClientMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E6CD4B29FC634700C8BA78 /* ClientMapper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		21B747B929E88B1B008B69AE /* Desserts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Desserts.swift; sourceTree = "<group>"; };
 		21B747BB29E88F5B008B69AE /* DessertDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DessertDetails.swift; sourceTree = "<group>"; };
 		21B747BE29E893AC008B69AE /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
+		21E6CD4B29FC634700C8BA78 /* ClientMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientMapper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 			isa = PBXGroup;
 			children = (
 				213095FE29EA030400965D42 /* Strings.swift */,
+				21E6CD4B29FC634700C8BA78 /* ClientMapper.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -222,6 +225,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				215123CA29EC583D00A197E4 /* ImageLoader.swift in Sources */,
+				21E6CD4C29FC634700C8BA78 /* ClientMapper.swift in Sources */,
 				213095FC29E9E1DE00965D42 /* MealAPIError.swift in Sources */,
 				21B747B329E869F6008B69AE /* Dessert.swift in Sources */,
 				213095F429E9C48C00965D42 /* DessertListView.swift in Sources */,
